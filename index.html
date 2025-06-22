@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Abigael!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to right, #fbd3e9, #bb377d);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.5rem;
+      max-width: 600px;
+    }
+
+    #play-button {
+      margin-top: 2rem;
+      background-color: white;
+      color: #bb377d;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy Birthday, Abigael!</h1>
+  <p style="font-family: 'Pacifico', cursive;"> Smile </p>
+  <img src="https://www.pinterest.com/pin/god-loves-you--561050066059451900/" alt="God loves you image" width="500" height="600">
+  <p style="font-family: 'Pacifico', cursive;"> Enjoy your 20's ! </p>
+  <button id="play-button">Play Birthday Song 🎶</button>
+
+  <audio id="birthday-audio">
+    <source src="./assets/music/Good Wishes For Your BirthdaySusann SchonfeldMiss Line Dance.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <script>
+    // Confetti animation (simple version)
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetti = Array.from({ length: 300 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 4,
+      d: Math.random() * 40,
+      color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+      tilt: Math.floor(Math.random() * 10) - 5
+    }));
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach((c, i) => {
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.fillRect(c.x + c.tilt, c.y, c.r, c.r);
+        c.y += Math.cos(c.d) + 1 + c.r / 2;
+        c.x += Math.sin(c.d);
+
+        if (c.y > canvas.height) {
+          confetti[i].y = -10;
+          confetti[i].x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(drawConfetti);
+    }
+
+    drawConfetti();
+
+    // Play music
+    document.getElementById('play-button').addEventListener('click', () => {
+      document.getElementById('birthday-audio').play();
+    });
+  </script>
+</body>
+</html>
